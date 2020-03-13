@@ -503,6 +503,7 @@ foreach ($months as $i => $month) {
 		<button id="form_submit" class="submit btn btn-info margin-left0">Искать</button>
 		<input checked="checked" type="radio" id="id_search_mode_all" name="search_mode" value="all"> <label for="id_search_mode_all">По всем фильтрам</label>&ensp;
 		<input type="radio" id="id_search_mode_any" name="search_mode" value="any"> <label for="id_search_mode_any">По любому из фильтров</label>
+        <input type="checkbox" id="duphide" name="duphide" value="1"> <label for="duphide">Показ без дублирующихся записей</label>
 	</td>
 </tr>
 </table>

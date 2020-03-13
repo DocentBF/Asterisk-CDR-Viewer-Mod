@@ -11,6 +11,8 @@ if ( !isset($_POST['form_submitted']) ) {
 
 $dbh = dbConnect();
 
+$duphide = isset($_REQUEST['duphide']) ? 1 : 0;
+
 // Connecting, selecting database
 foreach ( array_keys($_REQUEST) as $key ) {
 	$_REQUEST[$key] = preg_replace('/;/', ' ', $_REQUEST[$key]);
@@ -356,7 +358,7 @@ if ( isset($_REQUEST['need_html']) && $_REQUEST['need_html'] == 'true' ) {
 			$rawresult = $sth->fetchAll(PDO::FETCH_ASSOC);
 			$filtered_count = 0;
 			# Удаление дублирующихся записей в Asterisk 13
-			if ( Config::get('display.main.duphide') == 1 ) {
+			if ( $duphide ) {
 				foreach($rawresult as $val) {
 					$superresult[$val['uniqueid'].'-'.$val['disposition']] = $val;
 				}
@@ -375,11 +377,11 @@ if ( isset($_REQUEST['need_html']) && $_REQUEST['need_html'] == 'true' ) {
 			}
 			if ( $tot_calls_raw > $result_limit ) {
 				echo '<p class="center title">Показаны '. ($result_limit - $filtered_count) .' из '. $tot_calls_raw;
-				echo Config::get('display.main.duphide') == 1 ? ', отфильтровано ' . $filtered_count : '';
+				echo $duphide == 1 ? ', отфильтровано ' . $filtered_count : '';
 				echo ' записей </p><table class="cdr">';
 			} else {
 				echo '<p class="center title">Найдено '. $tot_calls_raw;
-				echo Config::get('display.main.duphide') == 1 ? ', отфильтровано ' . $filtered_count : '';
+				echo $duphide == 1 ? ', отфильтровано ' . $filtered_count : '';
 				echo ' записей </p><table class="cdr">';
 			}
 			foreach ( $superresult as $key => $row ) {			
